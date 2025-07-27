@@ -1,6 +1,5 @@
-"use strict";
-function findSubString(str, sub) {
-    let index = -1;
+function findSubString(str: string, sub: string): number {
+    let index: number = -1;
     if (sub.length === 0) return -1;
     for (let i = 0; i <= str.length - sub.length; i++) {
         if (str[i] === sub[0]) {
@@ -17,8 +16,9 @@ function findSubString(str, sub) {
             }
         }
     }
+
     return index;
 }
 console.log(findSubString("foobabbar", "bar"));
+
 module.exports = findSubString;
-//# sourceMappingURL=SubString.js.map
