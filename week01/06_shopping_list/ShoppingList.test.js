@@ -3,7 +3,7 @@ const ShoppingList = require('./ShoppingList.js');
 test("Creating a shopping list", () => {
 	let slist = new ShoppingList();
 
-	expect(slist).not.toNull();
+	expect(slist).not.toBeNull();
 });
 
 test("Shopping list with an empty list", () => {
@@ -53,7 +53,7 @@ test("Shopping list adding three, checking getItem(1)", () => {
 	slist.addItem("Milk");
 	slist.addItem("Bread");
 	slist.addItem("Biscuits");
-	expect(slist.getItem(1)).toBe({name: "Bread", completed: false});
+	expect(slist.getItem(1)).toEqual({name: "Bread", completed: false});
 });
 
 
