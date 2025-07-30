@@ -1,34 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LinkedList = exports.LinkedListNode = void 0;
-class LinkedListNode {
-    constructor(value) {
+var LinkedListNode = /** @class */ (function () {
+    function LinkedListNode(value) {
         this.next = null;
         this.value = value;
     }
-}
+    return LinkedListNode;
+}());
 exports.LinkedListNode = LinkedListNode;
-/** LinkedList class **/
-class LinkedList {
-    /**
-     * Creates a linkedlist
-     * Should initialise the root node of the linked list
-     * and size
-     */
-    constructor() {
-        //TODO: Implement fields
+var LinkedList = /** @class */ (function () {
+    function LinkedList() {
+        this.root = null;
         this.root = null;
     }
-    /**
-     * Gets the root of the linkedlist,
-     * this would be the starting
-     * node
-     * @return {LinkedListNode} root -
-     * 	Root of the linkedlist
-     */
-    retrieveRoot() {
-        return null;
-    }
+    LinkedList.prototype.retrieveRoot = function () {
+        return this.root;
+    };
     /**
      * Retrieves an object within the list
      * @param {number} index -
@@ -36,24 +24,31 @@ class LinkedList {
      * @return {number} obj -
      * 	Object found at location or null
      */
-    retrieve(index) {
-        let obj = null;
-        //TODO: Implement retrieve logic
-        return obj;
-    }
-    /**
-     * Appends an object to the end of the linkedlist
-     * @param {number} obj -
-     * 	Object to be inserted into the
-     * 	linked list
-     *
-     */
-    append(obj) {
-        //TODO: Implement append logic
-        if (this.root == null) {
-            this.root = new LinkedListNode(obj);
+    LinkedList.prototype.retrieve = function (index) {
+        if (!this.root)
+            return null;
+        if (index < 0)
+            return null;
+        var current = this.root;
+        var currentIndex = 0;
+        while (current !== null && currentIndex < index) {
+            current = current.next;
+            currentIndex++;
         }
-    }
+        return current ? current.value : null;
+    };
+    LinkedList.prototype.append = function (obj) {
+        var newNode = new LinkedListNode(obj);
+        if (!this.root) {
+            this.root = newNode;
+            return;
+        }
+        var current = this.root;
+        while (current.next) {
+            current = current.next;
+        }
+        current.next = newNode;
+    };
     /**
      * Removes an element from the linkedlist, returns it
      * @param {number} index -
@@ -62,27 +57,45 @@ class LinkedList {
      * 	Object to be removed or null
      *
      */
-    remove(index) {
-        //TODO: Implement remove logic
+    LinkedList.prototype.remove = function (index) {
+        if (!this.root || index < 0)
+            return null;
+        // remove head if index 0
+        if (index === 0) {
+            var deletedData = this.root.value;
+            this.root = this.root.next;
+            return deletedData;
+        }
+        var current = this.root;
+        var previous = null;
+        var currentIndex = 0;
+        while (current !== null && currentIndex < index) {
+            previous = current;
+            current = current.next;
+            currentIndex++;
+        }
+        if (current && previous) {
+            previous.next = current.next;
+            return current.value;
+        }
         return null;
-    }
-    /**
-     * Adding a new node to the front of the linkedlist
-     * @param {number} obj -
-     * 	Object to be added to the front
-     */
-    prepend(obj) {
-        //TODO: Implement prepend logic
-    }
-    /**
-     * Size of the list, number of elements in the list
-     * @return {number} size -
-     * 	Number of elements in the list
-     */
-    size() {
-        //TODO: Return the number of elements 
-        // in the linked list
-        return 0;
-    }
-}
+    };
+    LinkedList.prototype.prepend = function (obj) {
+        var newNode = new LinkedListNode(obj);
+        //links new node to current head node
+        newNode.next = this.root;
+        //new node becomes head of the list
+        this.root = newNode;
+    };
+    LinkedList.prototype.size = function () {
+        var count = 0;
+        var current = this.root;
+        while (current) {
+            count++;
+            current = current.next;
+        }
+        return count;
+    };
+    return LinkedList;
+}());
 exports.LinkedList = LinkedList;
