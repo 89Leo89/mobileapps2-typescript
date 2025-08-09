@@ -23,7 +23,7 @@ export class LinkedList {
 	 */
 	constructor() {
 		//TODO: Implement fields
-		
+		this.root = null;
 	}
 
 	/**
@@ -34,7 +34,7 @@ export class LinkedList {
 	 * 	Root of the linkedlist
 	 */
 	retrieveRoot(): LinkedListNode | null {
-		return null;	
+		return this.root;	
 	}
 
 	/**
@@ -45,12 +45,18 @@ export class LinkedList {
 	 * 	Object found at location or null
 	 */
 	retrieve(index: number): number | null {
-		let obj = null;
-		//TODO: Implement retrieve logic
+		if (!this.root) return null;
+		if (index < 0) return null;
 
-		
+		let current: LinkedListNode | null = this.root;
+		let currentIndex = 0;
 
-		return obj;
+		while (current !== null && currentIndex < index) {
+			current = current.next;
+			currentIndex++;
+		}
+
+		return current ? current.value : null;
 	}
 
 	/**
@@ -60,11 +66,21 @@ export class LinkedList {
 	 * 	linked list
 	 *
 	 */
-	append(obj: number) {
-		//TODO: Implement append logic
-		if(this.root == null) {
-			this.root = new LinkedListNode(obj);
+	append(obj: number): void {
+
+		const newNode = new LinkedListNode(obj)
+
+		if (!this.root) {
+			this.root = newNode;
+			return;
 		}
+
+		let current = this.root;
+
+		while (current.next) {
+			current = current.next;
+		}
+		current.next = newNode;
 	}
 
 	/**
@@ -76,18 +92,48 @@ export class LinkedList {
 	 *
 	 */
 	remove(index: number): number | null {
-		//TODO: Implement remove logic
+
+		if (!this.root || index < 0) return null;
+
+		// remove head if index 0
+		if (index === 0) {
+			const deletedData = this.root.value;
+			this.root = this.root.next;
+			return deletedData;
+		}
+
+		let current: LinkedListNode | null = this.root;
+		let previous: LinkedListNode | null = null;
+		let currentIndex = 0;
+
+		while (current !== null && currentIndex < index) {
+			previous = current;
+			current = current.next;
+			currentIndex++;
+		}
+
+		if (current && previous) {
+			previous.next = current.next;
+			return current.value;
+		}
+		
 		return null;
 	}
+
 
 	/**
 	 * Adding a new node to the front of the linkedlist
 	 * @param {number} obj - 
 	 * 	Object to be added to the front
 	 */
-	prepend(obj: number) {
-		//TODO: Implement prepend logic
+	prepend(obj: number): void {
+		const newNode = new LinkedListNode(obj)
+		//links new node to current head node
+		newNode.next = this.root;
+		//new node becomes head of the list
+		this.root = newNode;
 	}
+
 
 	/**
 	 * Size of the list, number of elements in the list
@@ -95,9 +141,16 @@ export class LinkedList {
 	 * 	Number of elements in the list
 	 */
 	size(): number {
-		//TODO: Return the number of elements 
+		let count = 0;
+		let current = this.root;
+
+		while(current){
+			count ++;
+			current = current.next;
+		}
+
 		// in the linked list
-		return 0;
+		return count;
 	}
 
 }
